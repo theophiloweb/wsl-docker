@@ -25,6 +25,110 @@ Você já passou por isso?
 
 ## ✨ A Solução: WSL Docker-Style
 
+## Apresentando o WSL Manager 🚀
+
+O **WSL Manager** é um script PowerShell chamado `wsl-manager.ps1` que transforma o WSL em uma ferramenta poderosa para gerenciar ambientes de desenvolvimento. Ele funciona como uma interface simples e intuitiva, permitindo criar, configurar e controlar instâncias WSL sem precisar entender comandos complexos do WSL — o script faz tudo para você!
+
+### O que ele faz?
+
+- Cria instâncias WSL baseadas em uma distribuição Linux (como `UbuntuMinimal2204`).
+- Configura ambientes específicos (PHP, Node.js, Python, etc.) usando o script `provision-web-env.sh`.
+- Gerencia essas instâncias com comandos fáceis, como listar, remover, fazer backup e mais.
+
+### Principais Comandos
+
+Aqui estão os comandos mais importantes do `wsl-manager.ps1` e exemplos de como usá-los:
+
+- **create**: Cria uma nova instância WSL e provisiona o ambiente.
+  ```powershell
+  .\wsl-manager.ps1 -action create -name meu-projeto -base UbuntuMinimal2204 -envType node
+  ```
+  Isso cria uma instância chamada `meu-projeto` com um ambiente Node.js.
+
+- **provision**: Configura ou atualiza o ambiente de uma instância existente.
+  ```powershell
+  .\wsl-manager.ps1 -action provision -name meu-projeto -envType php
+  ```
+
+- **list**: Lista todas as instâncias WSL registradas.
+  ```powershell
+  .\wsl-manager.ps1 -action list
+  ```
+
+- **remove**: Remove uma instância WSL.
+  ```powershell
+  .\wsl-manager.ps1 -action remove -name meu-projeto
+  ```
+
+- **exec**: Executa um comando dentro da instância como root.
+  ```powershell
+  .\wsl-manager.ps1 -action exec -name meu-projeto -command "npm install"
+  ```
+
+- **backup**: Faz backup de uma instância.
+  ```powershell
+  .\wsl-manager.ps1 -action backup -name meu-projeto
+  ```
+
+- **restore**: Restaura uma instância a partir de um backup.
+  ```powershell
+  .\wsl-manager.ps1 -action restore -name meu-projeto
+  ```
+
+- **monitor**: Monitora o uso de recursos das instâncias.
+  ```powershell
+  .\wsl-manager.ps1 -action monitor
+  ```
+
+- **stopall**: Para todas as instâncias em execução.
+  ```powershell
+  .\wsl-manager.ps1 -action stopall
+  ```
+
+- **help**: Mostra todos os comandos disponíveis.
+  ```powershell
+  .\wsl-manager.ps1 -action help
+  ```
+
+---
+
+## O Papel do Script de Provisionamento 📋
+
+O script `provision-web-env.sh` é chamado pelo `wsl-manager.ps1` para configurar o ambiente dentro da instância WSL. Ele instala as ferramentas e pacotes necessários com base no tipo de ambiente escolhido (ex.: PHP, Node.js, Python). Por exemplo:
+
+- Para Node.js, ele já instala o NVM, Node.js LTS e Yarn. Poderia ser melhorado para incluir ferramentas como `create-react-app` e `create-next-app` para projetos React e Next.js.
+- Para PHP, instala PHP 8.1, Nginx, MariaDB e Composer.
+
+Esse script é flexível e pode ser adaptado para suportar mais tipos de ambientes conforme necessário.
+
+---
+
+## Como Usar o WSL Manager? ⚙️
+
+### Instalação
+
+1. Clone o repositório do GitHub:
+   ```bash
+   git clone https://github.com/theophiloweb/wsl-docker.git
+   ```
+2. Navegue até o diretório:
+   ```bash
+   cd wsl-docker
+   ```
+3. Execute o script para ver os comandos disponíveis:
+   ```powershell
+   .\wsl-manager.ps1 -action help
+   ```
+
+### Configuração
+
+- Certifique-se de ter o WSL instalado no seu Windows.
+- Tenha uma distribuição base (como `UbuntuMinimal2204`) pronta para criar novas instâncias.
+
+Depois disso, é só usar os comandos para criar e gerenciar seus ambientes!
+
+---
+
 ### 🏆 **Vantagens Principais**
 
 #### 🔐 **Isolamento Total**
