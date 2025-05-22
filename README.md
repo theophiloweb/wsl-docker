@@ -5,6 +5,8 @@
 ![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
 
+<img src="logo.png" alt="WSL Docker" width="600" style="text-align:center;"/>
+
 ## 🚀 Transforme seu WSL em um Sistema de Containers Docker
 
 **Uma solução completa para criar, gerenciar e provisionar ambientes de desenvolvimento isolados no Windows 11 usando WSL2 - sem complexidade, com total controle!**
