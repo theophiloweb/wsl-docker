@@ -230,18 +230,6 @@ wsl -d meu-primeiro-projeto
 - [ ] Templates personalizados
 
 ---
-
-## 🌟 **Depoimentos**
-
-> *"Revolucionou minha forma de trabalhar! Cada cliente agora tem seu ambiente isolado."*  
-> **- João Silva, Desenvolvedor Freelancer**
-
-> *"Acabaram os conflitos entre versões do Node. Recomendo!"*  
-> **- Maria Santos, Frontend Developer**
-
-> *"Perfeito para estudar sem medo de quebrar nada."*  
-> **- Pedro Costa, Estudante**
-
 ---
 
 ## 📞 **Contato & Links**
