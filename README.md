@@ -28,137 +28,136 @@
 
 ---
 
-## 📖 Sobre o Projeto
+# WSL-Docker-Style
 
-Bem-vindo! Este guia explora abordagens aprimoradas para gerenciar suas instâncias do Subsistema Windows para Linux (WSL) e para configurar ambientes de desenvolvimento isolados e prontos para uso, inspirando-se na simplicidade e eficiência de ferramentas modernas como Docker, mas aproveitando a integração profunda do WSL com o Windows.
+> **Ferramenta de Gerenciamento WSL via PowerShell**
 
----
-
-## 🎯 Objetivo
-
-Simplificar e automatizar tarefas comuns no WSL, tornando o fluxo de trabalho de desenvolvimento mais rápido, consistente e agradável. Apresentamos duas frentes principais:
-
-1. **Gerenciamento de Instâncias WSL "Estilo Docker"**: Uma maneira mais intuitiva de lidar com suas distribuições Linux.
-2. **Configuração Automatizada de Ambientes**: Um script Bash robusto para provisionar rapidamente ambientes de desenvolvimento completos dentro de uma instância WSL Ubuntu.
+Uma ferramenta de linha de comando elegante, criada em PowerShell, para simplificar e automatizar o gerenciamento de múltiplas instâncias do Subsistema Windows para Linux (WSL), oferecendo uma experiência de controle semelhante à do Docker.
 
 ---
 
-## 🔧 Parte 1: Gerenciamento de Instâncias WSL ("Estilo Docker")
+## 🚀 Por que usar esta ferramenta?
 
-Gerenciar múltiplas instâncias WSL através de comandos diretos no terminal pode ser poderoso, mas também verboso e propenso a erros para operações rotineiras.
+Em um ambiente de desenvolvimento moderno, é comum precisar de múltiplos ambientes isolados para diferentes projetos. O Docker resolve isso com contêineres, mas o WSL2 por si só já oferece um poderoso ambiente de virtualização de distribuições Linux completas, que podem servir como ambientes de desenvolvimento robustos e isolados.
 
-### 📋 Abordagem Tradicional com Comandos `wsl.exe`
+### O Problema
+Gerenciar instâncias WSL (instalar, iniciar, parar, remover, clonar, configurar) via linha de comando padrão do `wsl.exe` pode ser verboso e pouco intuitivo.
 
-Comandos diretos oferecem controle granular total:
+### A Solução
+Este script traz a simplicidade e agilidade do fluxo de trabalho do Docker para o gerenciamento de instâncias WSL, encapsulando comandos complexos em um menu interativo e fácil de usar.
 
-**Listar distribuições online:**
-```powershell
-wsl --list --online
+---
+
+## ✨ Funcionalidades Principais
+
+O script centraliza todas as operações essenciais do WSL em uma interface amigável:
+
+### 📋 Visualização e Instalação
+- **Visualização de Distros**: Lista todas as distribuições Linux disponíveis para instalação online
+- **Instalação Simplificada**: Instala novas distribuições diretamente do repositório oficial
+
+### 🐳 Controle de Instâncias (Estilo Docker)
+- Inicia, para e reinicia instâncias específicas
+- Desliga todas as instâncias em execução com um único comando (`wsl --shutdown`)
+
+### 💾 Gerenciamento de Snapshots
+- **Criar (Exportar)**: Gera um backup (.tar) de uma instância existente, permitindo clonagem ou migração
+- **Restaurar (Importar)**: Cria uma nova instância a partir de um arquivo de snapshot, ideal para replicar ambientes de desenvolvimento
+
+### ⚙️ Configuração Centralizada
+- Define qual instância WSL será a padrão
+- Ajusta as configurações de performance globais do WSL2 (CPU, memória, swap) editando o arquivo `.wslconfig` de forma guiada
+
+### 🗂️ Organização e Limpeza
+- **Remoção Segura**: Remove uma ou múltiplas instâncias através de um menu de seleção numerado, com confirmação para evitar perdas acidentais
+- **Organização**: Inclui uma função para criar diretórios padrão (`C:\distro` e `C:\distro\clone`) para organizar os arquivos das instâncias
+
+---
+
+## ⚙️ Como Usar
+
+### Pré-requisitos
+- Windows 11 com o WSL2 instalado e ativado
+- PowerShell
+
+### 🚀 Execução
+
+1. **Salve o script** como `envwsl.ps1`
+
+2. **Abra um terminal PowerShell**
+
+3. **Navegue** até o diretório onde você salvou o arquivo
+
+4. **Ajuste a política de execução** (se necessário):
+   ```powershell
+   Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+   ```
+
+5. **Execute o script**:
+   ```powershell
+   .\envwsl.ps1
+   ```
+
+### 🖥️ Interface do Menu
+
+Após a execução, um menu interativo elegante será exibido:
+
 ```
+=================================================================
 
-**Instalar uma distribuição (ex: Ubuntu-22.04):**
-```powershell
-wsl --install -d Ubuntu-22.04
+           W     W   SSSSS   L
+           W     W   S       L
+           W  W  W   SSSSS   L
+           W W W W       S   L
+            W   W    SSSSS   LLLLL
+
+               SSSSS  TTTTTT  Y   Y  L      EEEEE
+               S        TT     Y Y   L      E
+               SSSSS    TT      Y    L      EEEEE
+                   S    TT      Y    L      E
+               SSSSS    TT      Y    LLLLL  EEEEE
+
+            DDDDDD    OOOOO   CCCCC  K   K  EEEEE  RRRRRR
+            D    D   O     O  C      K  K   E      R    R
+            D    D   O     O  C      KKK    EEEEE  RRRRRR
+            D    D   O     O  C      K  K   E      R   R
+            DDDDDD    OOOOO   CCCCC  K   K  EEEEE  R    R
+
+=================================================================
+
+                     WSL Management Tool
+                  Gerenciador WSL Estilo Docker
+
+Menu Principal - Gerenciador WSL
+--------------------------------
+1. Ver distribuições disponíveis online
+2. Instalar nova distribuição (encerra o script após iniciar)
+3. Criar pasta para distros (C:\distro)
+4. Restaurar instância a partir de um snapshot (.tar)
+5. Criar snapshot (backup) de uma instância
+6. Definir instância padrão
+7. Controlar e configurar instâncias (Iniciar, Parar, Remover, Performance)
+8. Sair
+
+Escolha uma opção:
 ```
-
-**Listar instaladas:**
-```powershell
-wsl --list --verbose
-```
-
-**Remover uma instância:**
-```powershell
-wsl --unregister NomeDaDistribuicao
-```
-
-**Exportar (Backup):**
-```powershell
-wsl --export NomeDaDistribuicao caminho\do\backup.tar
-```
-
-**Importar (Restaurar):**
-```powershell
-wsl --import NovaInstancia caminho\de\instalacao caminho\do\backup.tar
-```
-
-### ✅ Vantagens e Desvantagens
-
-**👍 Vantagens:** 
-- Controle máximo
-- Sem dependências externas
-
-**👎 Desvantagens:** 
-- Repetitivo
-- Curva de aprendizado para novos usuários
-- Maior chance de erros de digitação em comandos complexos
-
-### 🎨 Abordagem "WSL Docker Style" com Script PowerShell Interativo
-
-Inspirado na facilidade de uso de interfaces como Docker Desktop, um script PowerShell encapsula esses comandos em um menu interativo e em português, proporcionando uma experiência mais amigável ao usuário.
 
 ---
 
 ## 👨‍💻 Autor
 
-<div align="center">
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/francisco-das-chagas-te%C3%B3filo-da-silva-15a12b2ab/)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/theophiloweb)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:teophilo@gmail.com)
-
 **Francisco das Chagas Teófilo da Silva**
 
-📧 **Email:** teophilo@gmail.com  
-🔗 **LinkedIn:** [Francisco das Chagas Teófilo da Silva](https://www.linkedin.com/in/francisco-das-chagas-te%C3%B3filo-da-silva-15a12b2ab/)  
-🐙 **GitHub:** [theophiloweb](https://github.com/theophiloweb)
-
-</div>
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/francisco-das-chagas-teófilo-da-silva-b5633324/)
 
 ---
 
-## 📄 Licença
+## 📜 Licença
 
-<div align="center">
-
-![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-</div>
+Este projeto está licenciado sob a **Licença MIT**. Veja o arquivo `LICENSE` para mais detalhes.
 
 ---
 
 <div align="center">
-
-## 🚀 Pronto para Revolucionar seu Desenvolvimento?
-
-**⬇️ Baixe a documentação completa e comece agora mesmo! ⬇️**
-
-[![Download](https://img.shields.io/badge/Download-Documentação_Completa-4CAF50?style=for-the-badge&logo=download&logoColor=white)](#)
-
----
-
-**⭐ Se este projeto te ajudou, deixe uma estrela no GitHub! ⭐**
-
-![Footer](https://img.shields.io/badge/Made_with-❤️_and_PowerShell-blue?style=for-the-badge)
-
-</div>
-
----
-
-## 🤝 Contribuições
-
-Contribuições são sempre bem-vindas! Sinta-se à vontade para:
-
-- Abrir issues para reportar bugs ou sugerir melhorias
-- Enviar pull requests com novos recursos
-- Melhorar a documentação
-- Compartilhar o projeto com outros desenvolvedores
-
----
-
-<div align="center">
-
-**Desenvolvido com ❤️ e muito ☕**
-
+  <strong>🌟 Se este projeto foi útil para você, considere dar uma estrela! 🌟</strong>
 </div>
